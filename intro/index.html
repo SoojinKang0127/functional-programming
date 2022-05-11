@@ -71,4 +71,28 @@
       (a) => a + 100
     )
   );
+
+  go(
+    team,
+    (team) => filter((member) => member.score > 80, team),
+    (team) => map((member) => member.name, team),
+    log
+  );
+
+  /* pipe */
+  const f = pipe(
+    (a, b) => a + b,
+    (a) => a + 10,
+    (a) => a + 10
+  );
+
+  log(f(0, 1));
+
+  /* curry */
+  const mult = curry((a, b) => a * b);
+
+  log(mult(100)(200));
+
+  const mult100 = mult(100);
+  log(mult100(99));
 </script>
