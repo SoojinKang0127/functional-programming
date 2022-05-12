@@ -1,6 +1,9 @@
 const log = console.log;
 
-const curry = f => (a, ..._) => _.length ? f(a, ..._) : (..._) => f(a, ..._);
+const curry =
+  (f) =>
+  (a, ..._) =>
+    _.length ? f(a, ..._) : (..._) => f(a, ..._);
 
 const map = (fn, iter) => {
   const result = [];
@@ -40,4 +43,16 @@ const reduce = (fn, acc, iter) => {
 
 const go = (...args) => reduce((a, fn) => fn(a), args);
 
-const pipe = (f, ...fs) => (...as)=>go(f(...as), ...fs);
+const pipe =
+  (f, ...fs) =>
+  (...as) =>
+    go(f(...as), ...fs);
+
+const range = (r) => {
+  let i = -1;
+  let arr = [];
+  while (++i < r) {
+    arr.push(i);
+  }
+  return arr;
+};

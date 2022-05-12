@@ -1,0 +1,19 @@
+<script src="function.js"></script>
+<script src="lazy-eval.js"></script>
+
+<script>
+  /* L.map */
+  const it = L.map((a) => a * 2, [1, 2, 3]);
+  it.next();
+  [it.next()];
+
+  /* L.filter */
+  const it2 = L.filter((a) => a % 2, range(100));
+  log(it2.next().value);
+  log(it2.next().value);
+  log(it2.next().value);
+  log(it2.next().value);
+  log(it2.next().value);
+  log(it2.next().value);
+  log(it2.next().value);
+</script>
