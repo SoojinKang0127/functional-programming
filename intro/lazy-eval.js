@@ -24,16 +24,16 @@ const take = curry((limit, iter) => {
   }
 });
 
-L.map = function* (fn, iter) {
+L.map = curry(function* (fn, iter) {
   for (const a of iter) {
     yield fn(a);
   }
-};
+});
 
-L.filter = function* (fn, iter) {
+L.filter = curry(function* (fn, iter) {
   for (const a of iter) {
     if (fn(a)) {
       yield a;
     }
   }
-};
+});

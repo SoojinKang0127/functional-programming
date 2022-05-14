@@ -61,4 +61,32 @@
   log(it2.next().value);
   log(it2.next().value);
   log(it2.next().value);
+
+  /* range, map, filter, take 평가 순서 */
+  // range에서 10개의 값을 가진 배열을 만들고 -> map -> filter -> teke
+  // 위에서부터 수평으로 평가함
+  log('일반 - 중첩 사용');
+  go(
+    range(10),
+    map((n) => n + 10),
+    filter((n) => n % 2),
+    take(2),
+    log
+  );
+
+  /* L.range, L.map, L.filter, take 평가 순서 */
+  // take에서 첫 번째 값을 취하기 위해 거꾸로 L.filter로 감 -> L.map -> L.range
+  // 이처럼 수직으로 거꾸로 올라갔다가 내려오는 방식으로 평가함. L.range에서 Infinity가 가능한 이유임
+  log('느긋 - 중첩 사용');
+  go(
+    L.range(Infinity),
+    L.map((n) => n + 10),
+    L.filter((n) => n % 2),
+    take(2),
+    log
+  );
+
+  /* 지연 평가 장점 */
+  // ES6 이전에는 공식적인 지연 평가 구현을 하기 위한 기본 규약이 없었다. 라이브러리를 통해서만 가능했다.
+  // 지금은 지연성을 다루기 위해서 자바스크립트의 표준 문법을 사용할 수 있기 때문에 조합성이 높고 안전하게 사용할 수 있다.
 </script>
