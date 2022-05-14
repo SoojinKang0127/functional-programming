@@ -5,15 +5,15 @@ const curry =
   (a, ..._) =>
     _.length ? f(a, ..._) : (..._) => f(a, ..._);
 
-const map = (fn, iter) => {
+const map = curry((fn, iter) => {
   const result = [];
   for (const e of iter) {
     result.push(fn(e));
   }
   return result;
-};
+});
 
-const filter = (fn, iter) => {
+const filter = curry((fn, iter) => {
   const result = [];
   for (const e of iter) {
     if (fn(e)) {
@@ -21,7 +21,7 @@ const filter = (fn, iter) => {
     }
   }
   return result;
-};
+});
 
 const _reduce = (fn, acc, iter) => {
   for (const e of iter) {
@@ -30,7 +30,7 @@ const _reduce = (fn, acc, iter) => {
   return acc;
 };
 
-const reduce = (fn, acc, iter) => {
+const reduce = curry((fn, acc, iter) => {
   if (!iter) {
     iter = acc[Symbol.iterator]();
     acc = iter.next().value;
@@ -39,7 +39,7 @@ const reduce = (fn, acc, iter) => {
     acc = fn(acc, e);
   }
   return acc;
-};
+});
 
 const go = (...args) => reduce((a, fn) => fn(a), args);
 

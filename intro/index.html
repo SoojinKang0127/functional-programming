@@ -72,9 +72,10 @@
     )
   );
 
+  log('커링 전');
   go(
     team,
-    (team) => filter((member) => member.score > 80, team),
+    (team) => filter((member) => member.score > 85, team),
     (team) => map((member) => member.name, team),
     log
   );
@@ -95,4 +96,20 @@
 
   const mult100 = mult(100);
   log(mult100(99));
+
+  /* 원래 있었던 map, filter, reduce에 curry를 적용시킨다. */
+  log('커링 후');
+  go(
+    team,
+    (team) => filter((member) => member.score > 85)(team),
+    (team) => map((member) => member.name)(team),
+    log
+  );
+  log('커링 후 - 더 간결하게');
+  go(
+    team,
+    filter((member) => member.score > 85),
+    map((member) => member.name),
+    log
+  );
 </script>
