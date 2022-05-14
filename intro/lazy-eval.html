@@ -2,6 +2,50 @@
 <script src="lazy-eval.js"></script>
 
 <script>
+  const add = (a, b) => a + b;
+
+  /* range */
+  log('range');
+  var list = range(4);
+  log(reduce(add, list));
+
+  /* 느긋한 L.range */
+  log('L.range');
+  var list = L.range(4);
+  log(reduce(add, list));
+
+  /* range와 느긋한 range의 차이 알기 */
+  // range()가 실행 되면서 모든 값이 평가가 되지만
+  // L.range()는 이것 자체로는 값이 평가가 시작되는 것이 아니고
+  // reduce안에서 iterator가 next()될 때마다 평가 됨(하나씩 값이 꺼내짐) : 값이 필요할 때까지 기다린다는 의미
+
+  /* ranage와 L.range의 성능 차이 */
+
+  function test(name, time, f) {
+    console.time(name);
+    while (time--) f();
+    console.timeEnd(name);
+  }
+
+  // test('range', 10, () => reduce(add, range(1000000)));
+  // test('L.range', 10, () => reduce(add, L.range(1000000)));
+
+  /* take */
+  // 100개를 다 만들어 놓고 5개를 뽑음
+  log(take(5, range(100)));
+
+  // 5개를 뽑기 위해서 5번만 값이 평가됨
+  log(take(5, L.range(100)));
+
+  //그렇기 때문에 L.range는 Infinity 를 사용해도 브라우저가 뻗지 않음
+  log(take(5, L.range(Infinity)));
+
+  log('range - take');
+  go(range(10000), take(5), reduce(add), log);
+
+  log('L.range - take');
+  go(L.range(10000), take(5), reduce(add), log);
+
   /* L.map */
   const it = L.map((a) => a * 2, [1, 2, 3]);
   it.next();
@@ -9,6 +53,7 @@
 
   /* L.filter */
   const it2 = L.filter((a) => a % 2, range(100));
+  log('L.filter');
   log(it2.next().value);
   log(it2.next().value);
   log(it2.next().value);

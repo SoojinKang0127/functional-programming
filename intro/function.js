@@ -47,12 +47,3 @@ const pipe =
   (f, ...fs) =>
   (...as) =>
     go(f(...as), ...fs);
-
-const range = (r) => {
-  let i = -1;
-  let arr = [];
-  while (++i < r) {
-    arr.push(i);
-  }
-  return arr;
-};
