@@ -1,0 +1,57 @@
+<script src="function.js"></script>
+<script src="lazy-eval.js"></script>
+<script src="lazy-eval-2.js"></script>
+
+<script>
+  const queryStr = (obj) =>
+    go(
+      obj,
+      Object.entries,
+      map(([k, v]) => `${k}=${v}`),
+      reduce((a, b) => `${a}&${b}`)
+    );
+
+  log(queryStr({ limit: 10, offset: 10, type: 'notice' }));
+
+  /* 위의 예시를 더 간략하게 표현 가능 */
+  const queryStr2 = pipe(
+    Object.entries,
+    map(([k, v]) => `${k}=${v}`),
+    reduce((a, b) => `${a}&${b}`)
+  );
+
+  /* array 프로토타입에 있는 join의 한계가 있다.  */
+  /* join 함수를 다형성이 높은 reduce함수로 만들어 보자. */
+
+  const join = curry((sep = ',', iter) =>
+    reduce((a, b) => `${a}${sep}${b}`, iter)
+  );
+
+  const queryStr3 = pipe(
+    Object.entries,
+    L.map(([k, v]) => `${k}=${v}`),
+    join('&')
+  );
+
+  log(queryStr3({ limit: 10, offset: 10, type: 'notice' }));
+
+  function* a() {
+    yield 10;
+    yield 11;
+    yield 12;
+    yield 13;
+  }
+  log(join('-', a()));
+
+  L.entries = function* (obj) {
+    for (const k in obj) {
+      yield [k, obj[k]];
+    }
+  };
+
+  const it = L.entries({ limit: 10, offset: 10, type: 'notice' });
+  it.next();
+  it.next();
+  it.next();
+  it.next();
+</script>
