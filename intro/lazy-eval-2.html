@@ -23,10 +23,6 @@
   /* array 프로토타입에 있는 join의 한계가 있다.  */
   /* join 함수를 다형성이 높은 reduce함수로 만들어 보자. */
 
-  const join = curry((sep = ',', iter) =>
-    reduce((a, b) => `${a}${sep}${b}`, iter)
-  );
-
   const queryStr3 = pipe(
     Object.entries,
     L.map(([k, v]) => `${k}=${v}`),
@@ -54,4 +50,27 @@
   it.next();
   it.next();
   it.next();
+
+  /* take와 find */
+
+  const users = [
+    { age: 32 },
+    { age: 22 },
+    { age: 98 },
+    { age: 74 },
+    { age: 11 },
+    { age: 28 },
+    { age: 30 },
+    { age: 42 },
+    { age: 55 },
+    { age: 24 },
+  ];
+
+  log(find((u) => u.age < 30)(users));
+  go(
+    users,
+    L.map((u) => u.age),
+    find((n) => n < 30),
+    log
+  );
 </script>
